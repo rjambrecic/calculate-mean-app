@@ -20,4 +20,3 @@ for the given partition key.
 
 Publish the price mean to the price_mean topic and use 
 the same partition key that the new_crypto_price topic is using.
-

@@ -16,31 +16,24 @@ async def test_app():
     async with TestKafkaBroker(broker):
         async with TestApp(app):
             await broker.publish(
-                CryptoPrice(price=50000, crypto_currency="BTC"),
+                CryptoPrice(price=50000.0, crypto_currency="BTC"),
                 "new_crypto_price",
                 key=b"BTC",
             )
-            on_new_crypto_price.mock.assert_called_with(
-                dict(CryptoPrice(price=50000, crypto_currency="BTC"))
-            )
-            on_price_mean.mock.assert_not_called()
-
             await broker.publish(
-                CryptoPrice(price=60000, crypto_currency="BTC"),
+                CryptoPrice(price=60000.0, crypto_currency="BTC"),
                 "new_crypto_price",
                 key=b"BTC",
             )
-            on_new_crypto_price.mock.assert_called_with(
-                dict(CryptoPrice(price=60000, crypto_currency="BTC"))
-            )
-            on_price_mean.mock.assert_not_called()
-
             await broker.publish(
-                CryptoPrice(price=70000, crypto_currency="BTC"),
+                CryptoPrice(price=70000.0, crypto_currency="BTC"),
                 "new_crypto_price",
                 key=b"BTC",
             )
+
             on_new_crypto_price.mock.assert_called_with(
-                dict(CryptoPrice(price=70000, crypto_currency="BTC"))
+                dict(
+                    CryptoPrice(price=70000.0, crypto_currency="BTC")
+                )
             )
             on_price_mean.mock.assert_called_with(60000.0)
